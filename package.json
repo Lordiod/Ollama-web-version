@@ -1,0 +1,22 @@
+{
+  "name": "ollama-assistant",
+  "version": "1.0.0",
+  "description": "Ollama AI Assistant with React frontend and Express backend",
+  "type": "module",
+  "scripts": {
+    "server": "node server/index.js",
+    "client": "cd client && npm start",
+    "install-client": "cd client && npm install",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "setup": "npm install && npm run install-client"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.50.4",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
