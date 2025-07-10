@@ -1,17 +1,18 @@
-import { useState } from 'react'
+import { useState, FormEvent } from 'react'
+import { Message, ChatResponse } from '../types'
 
 export default function Chat() {
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: 'Welcome! How can I help you?' }
   ])
-  const [input, setInput] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [input, setInput] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!input.trim() || loading) return
 
-    const userMessage = { role: 'user', content: input }
+    const userMessage: Message = { role: 'user', content: input }
     setMessages(prev => [...prev, userMessage])
     setInput('')
     setLoading(true)
@@ -25,19 +26,21 @@ export default function Chat() {
         body: JSON.stringify({ prompt: input }),
       })
 
-      const data = await response.json()
+      const data: ChatResponse = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to get response')
+        throw new Error((data as any).error || 'Failed to get response')
       }
 
-      setMessages(prev => [...prev, { role: 'assistant', content: data.response }])
+      const assistantMessage: Message = { role: 'assistant', content: data.response }
+      setMessages(prev => [...prev, assistantMessage])
     } catch (error) {
       console.error('Chat error:', error)
-      setMessages(prev => [...prev, { 
+      const errorMessage: Message = { 
         role: 'assistant', 
         content: 'Sorry, there was an error generating a response. Please try again.' 
-      }])
+      }
+      setMessages(prev => [...prev, errorMessage])
     } finally {
       setLoading(false)
     }

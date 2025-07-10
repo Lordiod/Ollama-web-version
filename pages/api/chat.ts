@@ -1,4 +1,16 @@
-export default async function handler(req, res) {
+import { NextApiRequest, NextApiResponse } from 'next'
+import { ChatResponse, OllamaRequest, OllamaResponse } from '../../types'
+
+interface ChatRequest extends NextApiRequest {
+  body: {
+    prompt: string
+  }
+}
+
+export default async function handler(
+  req: ChatRequest,
+  res: NextApiResponse<ChatResponse | { error: string }>
+) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -12,23 +24,25 @@ export default async function handler(req, res) {
   try {
     const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434/api/generate'
     
+    const ollamaRequest: OllamaRequest = {
+      model: 'llama3.2:3b',
+      prompt,
+      stream: false
+    }
+
     const response = await fetch(ollamaUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model: 'llama3.2:3b',
-        prompt,
-        stream: false
-      })
+      body: JSON.stringify(ollamaRequest)
     })
 
     if (!response.ok) {
       throw new Error('Ollama server error')
     }
 
-    const result = await response.json()
+    const result: OllamaResponse = await response.json()
     res.json({ response: result.response })
   } catch (error) {
     console.error('Chat API error:', error)

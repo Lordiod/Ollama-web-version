@@ -1,28 +1,35 @@
-import { useState } from 'react'
+import { useState, FormEvent } from 'react'
+import { AuthData, AuthResponse } from '../types'
 
-export default function Auth({ onLogin }) {
-  const [isSignup, setIsSignup] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+interface AuthProps {
+  onLogin: () => void
+}
 
-  const handleSubmit = async (e) => {
+export default function Auth({ onLogin }: AuthProps) {
+  const [isSignup, setIsSignup] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [error, setError] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
     setLoading(true)
 
     try {
       const endpoint = isSignup ? '/api/auth/signup' : '/api/auth/login'
+      const authData: AuthData = { email, password }
+      
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(authData),
       })
 
-      const data = await response.json()
+      const data: AuthResponse = await response.json()
 
       if (!response.ok) {
         setError(data.error || 'An error occurred')
