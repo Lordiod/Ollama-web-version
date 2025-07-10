@@ -1,32 +1,123 @@
-# Ollama AI Assistant
+# Ollama Assistant - Next.js
 
-A full-stack application that connects to Ollama for AI chat functionality with user authentication via Supabase.
+A modern, full-stack AI assistant built with Next.js, integrating Ollama for local AI inference and Supabase for authentication.
 
-## Prerequisites
+## Features
 
-1. **Node.js** (v16 or higher)
-2. **Ollama** installed and running locally
-3. **Supabase account** (for authentication)
+- 🤖 **Local AI Chat**: Powered by Ollama (llama3.2:3b model)
+- 🔐 **Authentication**: Secure signup/login with Supabase
+- 🎨 **Modern UI**: Beautiful, responsive design with Tailwind CSS
+- ⚡ **Full-stack**: Built with Next.js API routes
+- 🚀 **Easy Setup**: Simple configuration and deployment
 
-## Setup Instructions
+## Quick Start
 
-### 1. Install Ollama
+### Prerequisites
 
-Download and install Ollama from [https://ollama.ai](https://ollama.ai)
+- Node.js 18+ 
+- Ollama installed and running locally
+- Supabase account (optional - defaults provided)
 
-After installation, pull a model:
+### Installation
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Set up environment variables (optional):
+Create a `.env.local` file:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+OLLAMA_URL=http://localhost:11434/api/generate
+```
+
+3. Make sure Ollama is running:
+```bash
+ollama serve
+ollama pull llama3.2:3b
+```
+
+4. Start the development server:
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Project Structure
+
+```
+├── components/          # React components
+│   ├── Auth.js         # Authentication component
+│   └── Chat.js         # Chat interface component
+├── lib/                # Utility libraries
+│   └── supabase.js     # Supabase configuration
+├── pages/              # Next.js pages and API routes
+│   ├── api/            # API endpoints
+│   │   ├── auth/       # Authentication endpoints
+│   │   └── chat.js     # Chat API endpoint
+│   ├── _app.js         # App wrapper
+│   └── index.js        # Home page
+├── styles/             # Global styles
+│   └── globals.css     # Tailwind CSS imports
+├── next.config.js      # Next.js configuration
+├── tailwind.config.js  # Tailwind CSS configuration
+└── package.json        # Dependencies and scripts
+```
+
+## API Endpoints
+
+- `POST /api/auth/signup` - User registration
+- `POST /api/auth/login` - User authentication  
+- `POST /api/chat` - Chat with AI model
+
+## Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+## Configuration
+
+### Ollama Setup
+Make sure you have the llama3.2:3b model installed:
 ```bash
 ollama pull llama3.2:3b
 ```
 
-### 2. Setup Supabase
+### Supabase Setup (Optional)
+1. Create a new Supabase project
+2. Copy your project URL and anon key
+3. Add them to your `.env.local` file
 
-1. Create a new project at [https://supabase.com](https://supabase.com)
-2. Get your project URL and anon key from the project settings
-3. Create a `.env` file in the root directory (copy from `.env.example`)
-4. Replace the placeholder values with your actual Supabase credentials
+## Deployment
 
-### 3. Install Dependencies
+### Vercel (Recommended)
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy!
+
+### Other Platforms
+Build the project and deploy the `.next` folder:
+```bash
+npm run build
+npm run start
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+MIT License - feel free to use this project for learning and development!
 
 Run the setup command to install all dependencies:
 ```bash
