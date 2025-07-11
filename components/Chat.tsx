@@ -3,10 +3,14 @@ import { Message, ChatResponse } from '../types'
 
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Welcome! How can I help you?' }
+    { role: 'assistant', content: 'Welcome! How can I help you today?' }
   ])
   const [input, setInput] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
+  const [sessionId] = useState<string>(() => {
+    // Generate a unique session ID for this chat session
+    return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+  })
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -14,6 +18,7 @@ export default function Chat() {
 
     const userMessage: Message = { role: 'user', content: input }
     setMessages(prev => [...prev, userMessage])
+    const currentInput = input
     setInput('')
     setLoading(true)
 
@@ -23,13 +28,21 @@ export default function Chat() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt: input }),
+        body: JSON.stringify({ 
+          prompt: currentInput,
+          messages: messages, // Send current messages for context
+          sessionId: sessionId
+        }),
       })
 
       const data: ChatResponse = await response.json()
 
       if (!response.ok) {
-        throw new Error((data as any).error || 'Failed to get response')
+        throw new Error(data.error || 'Failed to get response')
+      }
+
+      if (!data.response) {
+        throw new Error('Received empty response from server')
       }
 
       const assistantMessage: Message = { role: 'assistant', content: data.response }
@@ -38,7 +51,7 @@ export default function Chat() {
       console.error('Chat error:', error)
       const errorMessage: Message = { 
         role: 'assistant', 
-        content: 'Sorry, there was an error generating a response. Please try again.' 
+        content: `Error: ${error instanceof Error ? error.message : 'Unknown error occurred'}. Please try again.` 
       }
       setMessages(prev => [...prev, errorMessage])
     } finally {
@@ -46,11 +59,34 @@ export default function Chat() {
     }
   }
 
+  const clearChat = async () => {
+    setMessages([{ role: 'assistant', content: 'Welcome! How can I help you today?' }])
+    
+    // Also clear server-side session
+    try {
+      await fetch('/api/chat/clear', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sessionId }),
+      })
+    } catch (error) {
+      console.error('Error clearing chat session:', error)
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-4">
       <div className="bg-white rounded-lg shadow-md">
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-b border-gray-200 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-800">Ollama AI Assistant</h1>
+          <button
+            onClick={clearChat}
+            className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded-md transition-colors"
+          >
+            Clear Chat
+          </button>
         </div>
         
         <div className="h-96 overflow-y-auto p-4 space-y-4">
@@ -59,14 +95,21 @@ export default function Chat() {
               key={index}
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div
-                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                  message.role === 'user'
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-200 text-gray-800'
-                }`}
-              >
-                {message.content}
+              <div className="flex flex-col max-w-xs lg:max-w-md">
+                <div
+                  className={`px-4 py-2 rounded-lg ${
+                    message.role === 'user'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200 text-gray-800'
+                  }`}
+                >
+                  {message.content}
+                </div>
+                <span className={`text-xs text-gray-500 mt-1 ${
+                  message.role === 'user' ? 'text-right' : 'text-left'
+                }`}>
+                  {message.role === 'user' ? 'You' : 'Assistant'}
+                </span>
               </div>
             </div>
           ))}
@@ -102,6 +145,9 @@ export default function Chat() {
               Send
             </button>
           </form>
+          <div className="mt-2 text-xs text-gray-500">
+            Session ID: {sessionId} • Messages: {messages.length}
+          </div>
         </div>
       </div>
     </div>
