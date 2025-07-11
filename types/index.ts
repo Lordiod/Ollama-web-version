@@ -11,6 +11,8 @@ export interface AuthData {
 
 export interface ChatResponse {
   response: string
+  sessionId?: string
+  messageCount?: number
   error?: string
 }
 
@@ -22,10 +24,13 @@ export interface AuthResponse {
 
 export interface OllamaRequest {
   model: string
-  prompt: string
+  messages: Message[]
   stream: boolean
 }
 
 export interface OllamaResponse {
-  response: string
+  message: {
+    role: string
+    content: string
+  }
 }
