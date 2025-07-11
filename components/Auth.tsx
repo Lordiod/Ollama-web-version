@@ -1,8 +1,8 @@
 import { useState, FormEvent } from 'react'
-import { AuthData, AuthResponse } from '../types'
+import { AuthData, AuthResponse, User } from '../types'
 
 interface AuthProps {
-  onLogin: () => void
+  onLogin: (user: User) => void
 }
 
 export default function Auth({ onLogin }: AuthProps) {
@@ -38,7 +38,11 @@ export default function Auth({ onLogin }: AuthProps) {
           setError('Signup successful! Please check your email to confirm your account, then login.')
           setIsSignup(false)
         } else {
-          onLogin()
+          if (data.user) {
+            onLogin(data.user)
+          } else {
+            setError('Login successful but user data not received')
+          }
         }
       }
     } catch (err) {
