@@ -1,13 +1,15 @@
-# Ollama Assistant - Next.js + TypeScript
+# Ollama AI Assistant with Chat Persistence
 
-A modern, type-safe AI assistant built with Next.js 14, TypeScript, integrating Ollama for local AI inference and Supabase for authentication.
+A Next.js full-stack application that provides an AI chat interface using Ollama, with user authentication and chat history persistence via Supabase.
 
 ## 🚀 Features
 
-- 🤖 **Local AI Chat**: Powered by Ollama (llama3.2:3b model)
-- 🔐 **Authentication**: Secure signup/login with Supabase
+- 🤖 **AI Chat**: Powered by Ollama's local AI models
+- 🔐 **User Authentication**: Secure login/signup with Supabase Auth
+- 💾 **Chat Persistence**: Automatic saving and loading of chat history
 - 🎨 **Modern UI**: Beautiful, responsive design with Tailwind CSS
-- ⚡ **Full-stack**: Built with Next.js API routes
+- ⚡ **Real-time**: Instant chat with contextual conversations
+- 🧹 **Session Management**: Clear chat functionality with persistence
 - � **TypeScript**: Full type safety and better developer experience
 - �🚀 **Easy Setup**: Simple configuration and deployment
 
