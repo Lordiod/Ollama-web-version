@@ -1,13 +1,34 @@
 {
-  "name": "ollama-assistant",
+  "name": "ollama-web-assistant",
   "version": "1.0.0",
-  "description": "Ollama AI Assistant with Next.js fullstack application",
-  "private": true,
+  "description": "A modern web interface for Ollama AI models with user authentication and chat persistence",
+  "private": false,
+  "keywords": [
+    "ollama",
+    "ai",
+    "chat",
+    "nextjs",
+    "typescript",
+    "supabase",
+    "react",
+    "local-ai"
+  ],
+  "author": "Ollama Web Assistant Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/ollama-web-assistant.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/ollama-web-assistant/issues"
+  },
+  "homepage": "https://github.com/your-username/ollama-web-assistant#readme",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
@@ -26,5 +47,9 @@
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
     "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }
