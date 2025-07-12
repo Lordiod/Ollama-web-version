@@ -2,251 +2,295 @@
 
 A Next.js full-stack application that provides an AI chat interface using Ollama, with user authentication and chat history persistence via Supabase.
 
-## 🚀 Features
+## Overview
 
-- 🤖 **AI Chat**: Powered by Ollama's local AI models
-- 🔐 **User Authentication**: Secure login/signup with Supabase Auth
-- 💾 **Chat Persistence**: Automatic saving and loading of chat history
-- 🎨 **Modern UI**: Beautiful, responsive design with Tailwind CSS
-- ⚡ **Real-time**: Instant chat with contextual conversations
-- 🧹 **Session Management**: Clear chat functionality with persistence
-- � **TypeScript**: Full type safety and better developer experience
-- �🚀 **Easy Setup**: Simple configuration and deployment
+This application combines the power of local AI inference through Ollama with modern web technologies to create a secure, persistent chat experience. Built with Next.js and TypeScript, it offers enterprise-grade features including user authentication, chat history persistence, and a responsive design suitable for both desktop and mobile environments.
 
-## 📦 Tech Stack
+## Core Features
 
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **Styling**: Tailwind CSS
-- **Backend**: Next.js API Routes
-- **Database**: Supabase
-- **AI**: Ollama (Local AI inference)
-- **Development**: ESLint, TypeScript compiler
+- **AI Chat Interface**: Powered by Ollama's local AI models for fast, private inference
+- **User Authentication**: Secure login and registration system using Supabase Auth
+- **Chat Persistence**: Automatic saving and retrieval of conversation history
+- **Modern Web Technologies**: Built with Next.js 14, React 18, and TypeScript for optimal performance
+- **Responsive Design**: Professional UI with Tailwind CSS that works across all devices
+- **Real-time Communication**: Instant messaging with contextual conversation support
+- **Session Management**: Advanced chat session handling with persistent storage
+- **Type Safety**: Full TypeScript implementation for enhanced developer experience
+- **Production Ready**: Optimized for deployment with comprehensive error handling
 
-## 🏗️ Project Structure
+## Technology Stack
 
-```
-├── components/          # React components (TypeScript)
-│   ├── Auth.tsx        # Authentication component
-│   └── Chat.tsx        # Chat interface component
-├── lib/                # Utility libraries
-│   └── supabase.ts     # Supabase client configuration
-├── pages/              # Next.js pages and API routes
-│   ├── api/            # API endpoints (TypeScript)
-│   │   ├── auth/       # Authentication endpoints
-│   │   │   ├── login.ts
-│   │   │   └── signup.ts
-│   │   └── chat.ts     # Chat API endpoint
-│   ├── _app.tsx        # App wrapper
-│   └── index.tsx       # Home page
-├── styles/             # Global styles
-│   └── globals.css     # Tailwind CSS imports
-├── types/              # TypeScript type definitions
-│   └── index.ts        # Shared interfaces and types
-├── .env.local          # Environment variables
-├── next.config.js      # Next.js configuration
-├── tailwind.config.js  # Tailwind CSS configuration
-├── tsconfig.json       # TypeScript configuration
-└── package.json        # Dependencies and scripts
-```
+### Frontend
 
-## 🚦 Quick Start
+- **Framework**: Next.js 14 with React 18
+- **Language**: TypeScript for type safety
+- **Styling**: Tailwind CSS for responsive design
+- **State Management**: React hooks and context
 
-### Prerequisites
+### Backend
 
-- Node.js 18+ 
-- Ollama installed and running locally
-- Supabase account (optional - defaults provided)
+- **API Layer**: Next.js API Routes
+- **Database**: Supabase for user data and chat persistence
+- **Authentication**: Supabase Auth with secure token management
+- **AI Integration**: Ollama API for local model inference
 
-### Installation
+### Development Tools
 
-1. Install dependencies:
-```bash
-npm install
-```
+- **Linting**: ESLint with TypeScript rules
+- **Type Checking**: TypeScript compiler with strict mode
+- **Build System**: Next.js optimized build pipeline
 
-2. Set up environment variables (optional):
-Create a `.env.local` file:
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-OLLAMA_URL=http://localhost:11434/api/generate
-```
-
-3. Make sure Ollama is running:
-```bash
-ollama serve
-ollama pull llama3.2:3b
-```
-
-4. Start the development server:
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 📝 Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run type-check` - Run TypeScript type checking
-
-## 🔧 API Endpoints
-
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/login` - User authentication  
-- `POST /api/chat` - Chat with AI model
-
-## 🎯 TypeScript Features
-
-### Type Safety
-- **Strict TypeScript**: Full type checking enabled
-- **Interface Definitions**: Shared types for API responses and data structures
-- **Component Props**: Typed React component props
-- **API Routes**: Typed Next.js API handlers
-
-### Key Types
-```typescript
-interface Message {
-  role: 'user' | 'assistant'
-  content: string
-}
-
-interface AuthData {
-  email: string
-  password: string
-}
-
-interface ChatResponse {
-  response: string
-  error?: string
-}
-```
-
-## ⚙️ Configuration
-
-### Ollama Setup
-Make sure you have the llama3.2:3b model installed:
-```bash
-ollama pull llama3.2:3b
-```
-
-### Supabase Setup (Optional)
-1. Create a new Supabase project
-2. Copy your project URL and anon key
-3. Add them to your `.env.local` file
-
-### TypeScript Configuration
-The project uses strict TypeScript settings with:
-- Strict null checks
-- No implicit any
-- Unused locals detection
-- Path mapping for imports
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy!
-
-### Other Platforms
-Build the project and deploy the `.next` folder:
-```bash
-npm run build
-npm run start
-```
-
-## 🔄 Migration from JavaScript
-
-This project has been fully migrated from JavaScript to TypeScript:
-
-1. **File Extensions**: All `.js` files converted to `.ts`/`.tsx`
-2. **Type Definitions**: Added comprehensive type definitions
-3. **API Routes**: Typed Next.js API handlers
-4. **Components**: Typed React components with proper prop interfaces
-5. **Configuration**: TypeScript configuration with strict settings
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes with proper TypeScript types
-4. Run type checking: `npm run type-check`
-5. Submit a pull request
-
-## 📄 License
-
-MIT License - feel free to use this project for learning and development!
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-1. **TypeScript Errors**: Run `npm run type-check` to see detailed type errors
-2. **Ollama Connection**: Ensure Ollama is running on localhost:11434
-3. **Environment Variables**: Check that `.env.local` is properly configured
-4. **Dependencies**: Run `npm install` to ensure all packages are installed
-
-### Development Tips
-
-- Use VS Code with TypeScript extensions for best development experience
-- Enable auto-imports for faster development
-- Use the TypeScript compiler to catch errors early
-- Leverage IntelliSense for better code completion
-
-Run the setup command to install all dependencies:
-```bash
-npm run setup
-```
-
-### 4. Start the Application
-
-#### Option 1: Run both server and client together
-```bash
-npm run dev
-```
-
-#### Option 2: Run separately
-```bash
-# Terminal 1 - Start the server
-npm run server
-
-# Terminal 2 - Start the client
-npm run client
-```
-
-## Usage
-
-1. The client will open at `http://localhost:3000`
-2. The server runs on `http://localhost:4000`
-3. Sign up for a new account or login with existing credentials
-4. Start chatting with the AI assistant!
-
-## Project Structure
+## Architecture
 
 ```
 ollama-assistant/
-├── client/                 # React frontend
-│   ├── public/
-│   ├── src/
-│   │   ├── api.js         # API calls
-│   │   ├── App.js         # Main app component
-│   │   ├── ChatPage.js    # Chat interface
-│   │   └── index.js       # React entry point
-│   └── package.json
-├── server/
-│   └── index.js           # Express server
-├── package.json           # Root package.json
-└── .env.example          # Environment variables template
+├── components/             # Reusable React components
+│   ├── Auth.tsx           # Authentication forms and logic
+│   └── Chat.tsx           # Main chat interface
+├── lib/                   # Utility libraries and configurations
+│   └── supabase.ts        # Supabase client setup
+├── pages/                 # Next.js pages and API routes
+│   ├── api/               # Backend API endpoints
+│   │   ├── auth/          # Authentication handlers
+│   │   │   ├── login.ts   # User login endpoint
+│   │   │   └── signup.ts  # User registration endpoint
+│   │   └── chat.ts        # Chat API with Ollama integration
+│   ├── _app.tsx           # Application wrapper and global providers
+│   └── index.tsx          # Landing page and main entry point
+├── styles/                # Global styling
+│   └── globals.css        # Tailwind CSS configuration
+├── types/                 # TypeScript type definitions
+│   └── index.ts           # Shared interfaces and types
+├── .env.local             # Environment configuration
+├── next.config.js         # Next.js build configuration
+├── tailwind.config.js     # Tailwind CSS customization
+├── tsconfig.json          # TypeScript compiler options
+└── package.json           # Project dependencies and scripts
 ```
+
+## Getting Started
+
+### Prerequisites
+
+Before running this application, ensure you have:
+
+- Node.js version 18 or higher
+- npm or yarn package manager
+- Ollama installed and configured locally
+- Supabase account (optional, fallback defaults provided)
+
+### Installation Steps
+
+1. **Clone and Install Dependencies**
+
+   ```bash
+   git clone <repository-url>
+   cd ollama-assistant
+   npm install
+   ```
+
+2. **Environment Configuration**
+
+   Create a `.env.local` file in the root directory:
+
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anonymous_key
+   OLLAMA_URL=http://localhost:11434/api/generate
+   ```
+
+3. **Ollama Setup**
+
+   Ensure Ollama is running and has the required model:
+
+   ```bash
+   ollama serve
+   ollama pull llama3.2:3b
+   ```
+
+4. **Start Development Server**
+
+   ```bash
+   npm run dev
+   ```
+
+   The application will be available at `http://localhost:3000`
+
+## Development Commands
+
+| Command                  | Description                                        |
+|--------------------------|----------------------------------------------------|
+| `npm run dev`           | Start development server with hot reload           |
+| `npm run build`         | Create production build                            |
+| `npm run start`         | Start production server                            |
+| `npm run lint`          | Run ESLint code analysis                          |
+| `npm run type-check`    | Verify TypeScript types                           |
+
+## API Documentation
+
+### Authentication Endpoints
+
+- **POST** `/api/auth/signup` - Register new user account
+- **POST** `/api/auth/login` - Authenticate existing user
+
+### Chat Endpoints
+
+- **POST** `/api/chat` - Send message to AI model and receive response
+
+### Request/Response Format
+
+```typescript
+// Chat API Request
+interface ChatRequest {
+  message: string;
+  conversation_id?: string;
+}
+
+// Chat API Response
+interface ChatResponse {
+  response: string;
+  conversation_id: string;
+  error?: string;
+}
+```
+
+## TypeScript Implementation
+
+### Type Definitions
+
+The application uses comprehensive TypeScript types for enhanced development experience:
+
+```typescript
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
+
+interface User {
+  id: string;
+  email: string;
+  created_at: Date;
+}
+
+interface Conversation {
+  id: string;
+  user_id: string;
+  messages: Message[];
+  created_at: Date;
+  updated_at: Date;
+}
+```
+
+### Configuration
+
+TypeScript is configured with strict settings including:
+
+- Strict null checks for safer code
+- No implicit any types
+- Unused variable detection
+- Import/export validation
+
+## Deployment
+
+### Vercel Deployment
+
+1. Connect your repository to Vercel
+2. Configure environment variables in the Vercel dashboard
+3. Deploy automatically on each push to main branch
+
+### Manual Deployment
+
+1. Build the application:
+
+   ```bash
+   npm run build
+   ```
+
+2. Start the production server:
+
+   ```bash
+   npm run start
+   ```
+
+## Configuration Guide
+
+### Ollama Configuration
+
+Ensure your Ollama installation has the required model:
+
+```bash
+ollama list  # Check installed models
+ollama pull llama3.2:3b  # Install if not present
+```
+
+### Supabase Setup
+
+1. Create a new project at supabase.com
+2. Navigate to Settings > API to find your credentials
+3. Update your `.env.local` file with the project URL and anonymous key
+4. Configure Row Level Security policies for the chat tables
+
+### Environment Variables
+
+| Variable                              | Description                                   | Required |
+|---------------------------------------|-----------------------------------------------|----------|
+| `NEXT_PUBLIC_SUPABASE_URL`          | Supabase project URL                          | Yes      |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`     | Supabase anonymous key                        | Yes      |
+| `OLLAMA_URL`                         | Ollama API endpoint                          | No       |
 
 ## Troubleshooting
 
-- **Ollama connection error**: Make sure Ollama is running (`ollama serve`)
-- **Model not found**: Pull the model with `ollama pull llama3.2:3b`
-- **Supabase auth error**: Check your environment variables in `.env`
-- **Port conflicts**: Change the PORT in `.env` if 4000 is already in use
+### Common Issues
+
+**Ollama Connection Failed**
+
+- Verify Ollama is running: `ollama serve`
+- Check if the model is installed: `ollama list`
+- Ensure port 11434 is not blocked
+
+**TypeScript Compilation Errors**
+
+- Run `npm run type-check` for detailed error information
+- Verify all dependencies are installed: `npm install`
+- Check tsconfig.json for configuration issues
+
+**Authentication Problems**
+
+- Verify Supabase credentials in `.env.local`
+- Check Supabase project status and configuration
+- Ensure environment variables are properly loaded
+
+**Build or Runtime Errors**
+
+- Clear Next.js cache: `rm -rf .next`
+- Reinstall dependencies: `rm -rf node_modules && npm install`
+- Check for version compatibility issues
+
+### Performance Optimization
+
+- Use Next.js Image component for optimized image loading
+- Implement proper error boundaries for better user experience
+- Monitor bundle size and implement code splitting where necessary
+- Configure proper caching strategies for API responses
+
+## Contributing
+
+We welcome contributions to improve this project. Please follow these guidelines:
+
+1. Fork the repository and create a feature branch
+2. Ensure all TypeScript types are properly defined
+3. Run the full test suite: `npm run type-check && npm run lint`
+4. Submit a pull request with detailed description of changes
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Support
+
+For technical support or questions:
+
+- Review the troubleshooting section above
+- Check the GitHub issues for known problems
+- Create a new issue with detailed error information and environment details
