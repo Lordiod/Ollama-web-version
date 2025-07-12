@@ -37,7 +37,7 @@ A modern, full-stack web application that provides an intuitive chat interface f
 ## Project Structure
 
 ```
-ollama-web-assistant/
+ollama-web-version/
 ├── components/             # Reusable React components
 │   ├── Auth.tsx           # Authentication forms and logic
 │   └── Chat.tsx           # Main chat interface
@@ -75,8 +75,8 @@ ollama-web-assistant/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/ollama-web-assistant.git
-   cd ollama-web-assistant
+   git clone https://github.com/Lordiod/Ollama-web-version.git
+   cd ollama-web-version
    ```
 
 2. **Install dependencies**
@@ -257,13 +257,6 @@ npm run type-check
 ## Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
 ## Troubleshooting
 
 ### Common Issues
