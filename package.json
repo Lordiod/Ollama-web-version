@@ -1,14 +1,39 @@
 {
-  "name": "ollama-assistant",
+  "name": "ollama-web-assistant",
   "version": "1.0.0",
-  "description": "Ollama AI Assistant with Next.js fullstack application",
+  "description": "A beautiful, modern web interface for Ollama with real-time streaming responses, persistent chat history, and ChatGPT-style UI",
+  "keywords": [
+    "ollama",
+    "ai",
+    "chat",
+    "nextjs",
+    "typescript",
+    "supabase",
+    "streaming",
+    "real-time",
+    "modern-ui",
+    "chatbot"
+  ],
+  "author": "Your Name <your-email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lordiod/ollama-web-assistant.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Lordiod/ollama-web-assistant/issues"
+  },
+  "homepage": "https://github.com/Lordiod/ollama-web-assistant#readme",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.4",
@@ -25,6 +50,11 @@
     "@types/react-dom": "^18.3.7",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
+    "prettier": "^3.1.0",
     "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }
