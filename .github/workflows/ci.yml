@@ -17,6 +17,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Check for merge conflicts
+      run: |
+        if grep -r "<<<<<<< HEAD\|======= \|>>>>>>> " --include="*.json" --include="*.js" --include="*.ts" --include="*.tsx" .; then
+          echo "❌ Merge conflict markers found in files!"
+          echo "Please resolve all merge conflicts before pushing."
+          echo "Look for lines containing: <<<<<<<, =======, or >>>>>>>"
+          exit 1
+        fi
+        echo "✅ No merge conflict markers detected"
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
