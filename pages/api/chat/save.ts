@@ -42,16 +42,23 @@ export default async function handler(
   try {
     // Generate title for new chats
     let title = 'New Chat'
-    if (messages.length > 1) {
-      const firstUserMessage = messages.find(msg => msg.role === 'user')
-      if (firstUserMessage) {
+    if (messages && messages.length > 0) {
+      const firstUserMessage = messages.find(msg => msg.role === 'user' && msg.content && msg.content.trim().length > 0)
+      if (firstUserMessage && firstUserMessage.content) {
         title = firstUserMessage.content.slice(0, 50)
         if (firstUserMessage.content.length > 50) {
           title += '...'
         }
-        title = title.replace(/\n/g, ' ').trim()
+        title = title.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim()
+        
+        // Ensure we have a valid title
+        if (!title || title.length === 0) {
+          title = 'New Chat'
+        }
       }
     }
+    
+    console.log('Generated title:', title, 'from messages:', messages?.length || 0)
 
     // Check if chat session already exists
     const { data: existingChat, error: fetchError } = await supabase
