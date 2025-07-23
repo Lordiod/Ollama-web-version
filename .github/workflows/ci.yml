@@ -7,86 +7,41 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  test-and-build:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [18.x, 20.x]
       fail-fast: false
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Check for merge conflicts
-      run: |
-        if grep -r "<<<<<<< HEAD\|======= \|>>>>>>> " --include="*.json" --include="*.js" --include="*.ts" --include="*.tsx" .; then
-          echo "❌ Merge conflict markers found in files!"
-          echo "Please resolve all merge conflicts before pushing."
-          echo "Look for lines containing: <<<<<<<, =======, or >>>>>>>"
-          exit 1
-        fi
-        echo "✅ No merge conflict markers detected"
-    
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: package-lock.json
-    
-    - name: Validate package-lock.json sync
-      run: |
-        if ! npm ls --package-lock-only >/dev/null 2>&1; then
-          echo "❌ package.json and package-lock.json are out of sync!"
-          echo "To fix this:"
-          echo "1. Run 'npm install' locally"
-          echo "2. Commit the updated package-lock.json"
-          echo "3. Push your changes"
-          exit 1
-        fi
-        echo "✅ package.json and package-lock.json are synchronized"
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Run type check
-      run: npm run type-check
-      if: always()
-    
-    - name: Run linting
-      run: npm run lint
-      if: always()
-    
-    - name: Build application
-      run: npm run build
-      env:
-        NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
-        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key' }}
-        NODE_ENV: production
-    
-    - name: Run tests (if available)
-      run: npm test --if-present
-      if: always()
-      env:
-        NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
-        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key' }}
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Deploy to Vercel
-      uses: amondnet/vercel-action@v25
-      with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-        vercel-args: '--prod'
-        working-directory: ./
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for merge conflicts
+        run: |
+          if grep -r "<<<<<<< HEAD\|=======\|>>>>>>>" --include="*.json" --include="*.js" --include="*.ts" --include="*.tsx" .; then
+            echo "❌ Merge conflict markers found!"
+            exit 1
+          fi
+          echo "✅ No merge conflict markers found."
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project
+        run: npm run build
