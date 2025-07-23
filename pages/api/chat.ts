@@ -9,9 +9,6 @@ interface ChatRequest extends NextApiRequest {
   }
 }
 
-// In-memory storage for chat sessions (in production, use a database)
-const chatSessions: Map<string, Message[]> = new Map()
-
 export default async function handler(
   req: ChatRequest,
   res: NextApiResponse<ChatResponse | { error: string }>
@@ -27,8 +24,9 @@ export default async function handler(
   }
 
   try {
-    // Get or create chat session
-    let chatHistory = chatSessions.get(sessionId) || []
+    // Use the messages from the frontend (which includes loaded history) 
+    // instead of relying on in-memory storage
+    let chatHistory = messages || []
     
     // Add user message to history
     const userMessage: Message = { role: 'user', content: prompt }
@@ -40,16 +38,34 @@ export default async function handler(
       role: msg.role,
       content: msg.content
     }))
+    
+    // Filter out the welcome message if it's the only assistant message
+    // to avoid confusing the AI with generic greetings
+    const filteredMessages = ollamaMessages.filter((msg, index) => {
+      if (msg.role === 'assistant' && msg.content === 'Welcome! How can I help you today?' && chatHistory.length <= 2) {
+        return false
+      }
+      return true
+    })
+    
+    // Ensure we have some context - if no messages after filtering, use original
+    const messagesToSend = filteredMessages.length > 0 ? filteredMessages : ollamaMessages
 
     const ollamaUrl = process.env.OLLAMA_URL || 'http://localhost:11434/api/chat'
     
     const ollamaRequest: OllamaRequest = {
       model: 'llama3.2:3b',
-      messages: ollamaMessages,
-      stream: false
+      messages: messagesToSend,
+      stream: true // Enable streaming
     }
 
-    console.log('Sending to Ollama chat:', { url: ollamaUrl, messageCount: ollamaMessages.length })
+    console.log('Sending to Ollama chat:', { 
+      url: ollamaUrl, 
+      totalMessages: chatHistory.length,
+      sentMessages: messagesToSend.length,
+      sessionId,
+      streaming: true
+    })
 
     const response = await fetch(ollamaUrl, {
       method: 'POST',
@@ -63,31 +79,70 @@ export default async function handler(
       throw new Error(`Ollama server error: ${response.status} ${response.statusText}`)
     }
 
-    const result: OllamaResponse = await response.json()
-    console.log('Ollama response:', result)
-    
-    if (!result.message?.content) {
-      throw new Error('Empty response from Ollama')
-    }
-    
-    // Add assistant response to history
-    const assistantMessage: Message = { role: 'assistant', content: result.message.content }
-    chatHistory = [...chatHistory, assistantMessage]
-    
-    // Save updated chat history
-    chatSessions.set(sessionId, chatHistory)
-    
-    // Limit history to last 50 messages to prevent context overflow
-    if (chatHistory.length > 50) {
-      chatHistory = chatHistory.slice(-50)
-      chatSessions.set(sessionId, chatHistory)
-    }
-
-    res.json({ 
-      response: result.message.content,
-      sessionId,
-      messageCount: chatHistory.length
+    // Set up streaming response
+    res.writeHead(200, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Transfer-Encoding': 'chunked',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
     })
+
+    let fullResponse = ''
+    
+    if (response.body) {
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          
+          if (done) break
+          
+          const chunk = decoder.decode(value, { stream: true })
+          const lines = chunk.split('\n').filter(line => line.trim() !== '')
+          
+          for (const line of lines) {
+            try {
+              const parsed = JSON.parse(line)
+              if (parsed.message?.content) {
+                const content = parsed.message.content
+                fullResponse += content
+                
+                // Send each character individually for true streaming effect
+                for (let i = 0; i < content.length; i++) {
+                  res.write(content[i])
+                  // Force flush after each character
+                  const socket = (res as any).socket
+                  if (socket && socket.flush) {
+                    socket.flush()
+                  }
+                }
+              }
+              
+              if (parsed.done) {
+                // Streaming complete
+                res.end()
+                
+                // Add assistant response to history
+                const assistantMessage: Message = { role: 'assistant', content: fullResponse }
+                chatHistory = [...chatHistory, assistantMessage]
+                
+                return
+              }
+            } catch (parseError) {
+              console.error('Error parsing stream chunk:', parseError)
+            }
+          }
+        }
+      } catch (streamError) {
+        console.error('Streaming error:', streamError)
+        res.end()
+        throw streamError
+      }
+    } else {
+      throw new Error('No response body from Ollama')
+    }
   } catch (error) {
     console.error('Chat API error:', error)
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
