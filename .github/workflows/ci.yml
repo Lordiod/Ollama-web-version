@@ -13,9 +13,11 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
+      fail-fast: false
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
     - name: Check for merge conflicts
       run: |
@@ -32,6 +34,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: package-lock.json
     
     - name: Validate package-lock.json sync
       run: |
@@ -50,9 +53,11 @@ jobs:
     
     - name: Run type check
       run: npm run type-check
+      if: always()
     
     - name: Run linting
       run: npm run lint
+      if: always()
     
     - name: Build application
       run: npm run build
@@ -62,6 +67,7 @@ jobs:
     
     - name: Run tests (if available)
       run: npm test --if-present
+      if: always()
 
   deploy:
     needs: test
@@ -69,6 +75,9 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
     - name: Deploy to Vercel
       uses: amondnet/vercel-action@v25
       with:
