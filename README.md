@@ -1,22 +1,43 @@
-# Ollama AI Assistant with Chat Persistence
+# 🤖 Ollama AI Assistant - Modern Web Interface
 
-A Next.js full-stack application that provides an AI chat interface using Ollama, with user authentication and chat history persistence via Supabase.
+A beautiful, modern web interface for Ollama with real-time streaming responses, persistent chat history, and ChatGPT-style UI. Built with Next.js, TypeScript, and Tailwind CSS.
 
-## Overview
+![Ollama AI Assistant](./public/preview.png)
 
-This application combines the power of local AI inference through Ollama with modern web technologies to create a secure, persistent chat experience. Built with Next.js and TypeScript, it offers enterprise-grade features including user authentication, chat history persistence, and a responsive design suitable for both desktop and mobile environments.
+## ✨ Features
 
-## Core Features
+### 🎨 Modern Design
+- **Glassmorphic UI** with beautiful gradients and animations
+- **Responsive design** that works on desktop and mobile
+- **Professional color schemes** with smooth transitions
+- **Micro-interactions** and smooth animations
 
-- **AI Chat Interface**: Powered by Ollama's local AI models for fast, private inference
-- **User Authentication**: Secure login and registration system using Supabase Auth
-- **Chat Persistence**: Automatic saving and retrieval of conversation history
-- **Modern Web Technologies**: Built with Next.js 14, React 18, and TypeScript for optimal performance
-- **Responsive Design**: Professional UI with Tailwind CSS that works across all devices
-- **Real-time Communication**: Instant messaging with contextual conversation support
-- **Session Management**: Advanced chat session handling with persistent storage
-- **Type Safety**: Full TypeScript implementation for enhanced developer experience
-- **Production Ready**: Optimized for deployment with comprehensive error handling
+### 💬 Advanced Chat Experience
+- **Real-time streaming** responses with typing effect
+- **ChatGPT-style interface** - centered input on welcome, bottom on chat
+- **Interactive suggestion cards** for quick prompts
+- **Smart auto-scroll** that respects user position
+- **Character-by-character streaming** for natural conversation flow
+
+### 📚 Persistent Chat History
+- **Session management** with automatic saving
+- **Chat history sidebar** with organization
+- **Cross-session memory** - AI remembers context across logins
+- **Smart chat titles** generated from first user message
+- **Delete confirmation** for chat safety
+
+### 🔐 User Authentication
+- **Secure login/signup** with email validation
+- **Session persistence** across browser sessions
+- **User-specific chat isolation**
+- **Animated auth forms** with modern design
+
+### 🚀 Performance & Technical
+- **TypeScript** for type safety and better DX
+- **Next.js 14** with optimized builds
+- **Supabase** for database and auth
+- **Real-time streaming** with proper error handling
+- **Fast loading** and optimized performance
 
 ## Technology Stack
 
