@@ -26,9 +26,7 @@ export default function Home() {
       {isLoggedIn && user ? (
         <Chat user={user} onLogout={handleLogout} />
       ) : (
-        <div className="min-h-screen bg-gray-100">
-          <Auth onLogin={handleLogin} />
-        </div>
+        <Auth onLogin={handleLogin} />
       )}
     </div>
   )
