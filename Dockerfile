@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # Dockerfile for Ollama Web Assistant
-=======
-# Use the official Node.js runtime as the base image
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
 FROM node:18-alpine AS base
 
 # Install dependencies only when needed
@@ -13,11 +9,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
-<<<<<<< HEAD
 RUN npm ci
-=======
-RUN npm ci --only=production
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -25,7 +17,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-<<<<<<< HEAD
 # Environment variables must be present at build time
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -36,11 +27,6 @@ ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
 ENV OLLAMA_URL=$OLLAMA_URL
 
 # Disable telemetry during the build
-=======
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN npm run build
@@ -50,10 +36,6 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
-<<<<<<< HEAD
-=======
-# Uncomment the following line in case you want to disable telemetry during runtime.
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
@@ -75,14 +57,6 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
-<<<<<<< HEAD
 ENV HOSTNAME "0.0.0.0"
 
-=======
-# set hostname to localhost
-ENV HOSTNAME "0.0.0.0"
-
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/next-config-js/output
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
 CMD ["node", "server.js"]

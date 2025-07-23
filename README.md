@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🤖 Ollama AI Assistant - Modern Web Interface
 
 A beautiful, modern web interface for Ollama with real-time streaming responses, persistent chat history, and ChatGPT-style UI. Built with Next.js, TypeScript, and Tailwind CSS.
@@ -39,26 +38,6 @@ A beautiful, modern web interface for Ollama with real-time streaming responses,
 - **Supabase** for database and auth
 - **Real-time streaming** with proper error handling
 - **Fast loading** and optimized performance
-=======
-# Ollama Web Assistant
-
-A modern, full-stack web application that provides an intuitive chat interface for Ollama AI models with user authentication and persistent chat history.
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org/)
-
-## Features
-
-- **Local AI Integration**: Connect to Ollama models running locally for private, fast inference
-- **Secure Authentication**: User registration and login system powered by Supabase
-- **Chat Persistence**: Automatic saving and loading of conversation history
-- **Responsive Design**: Modern UI built with Tailwind CSS that works on all devices
-- **Real-time Chat**: Instant messaging with streaming responses
-- **Type Safety**: Full TypeScript implementation for better developer experience
-- **Session Management**: Advanced chat session handling with persistent storage
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
 
 ## Tech Stack
 

@@ -1,12 +1,7 @@
 {
   "name": "ollama-web-assistant",
   "version": "1.0.0",
-<<<<<<< HEAD
   "description": "A beautiful, modern web interface for Ollama with real-time streaming responses, persistent chat history, and ChatGPT-style UI",
-=======
-  "description": "A modern web interface for Ollama AI models with user authentication and chat persistence",
-  "private": false,
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
   "keywords": [
     "ollama",
     "ai",
@@ -14,7 +9,6 @@
     "nextjs",
     "typescript",
     "supabase",
-<<<<<<< HEAD
     "streaming",
     "real-time",
     "modern-ui",
@@ -31,35 +25,15 @@
   },
   "homepage": "https://github.com/Lordiod/ollama-web-assistant#readme",
   "private": true,
-=======
-    "react",
-    "local-ai"
-  ],
-  "author": "Ollama Web Assistant Contributors",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/your-username/ollama-web-assistant.git"
-  },
-  "bugs": {
-    "url": "https://github.com/your-username/ollama-web-assistant/issues"
-  },
-  "homepage": "https://github.com/your-username/ollama-web-assistant#readme",
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-<<<<<<< HEAD
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "echo \"No tests specified\" && exit 0"
-=======
-    "lint:fix": "next lint --fix",
-    "type-check": "tsc --noEmit"
->>>>>>> 3412d79ed96ea76df9ca04d59038bf81ce54e724
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.50.4",
