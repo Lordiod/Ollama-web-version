@@ -27,6 +27,18 @@ jobs:
         fi
         echo "✅ No merge conflict markers detected"
     
+    - name: Validate package-lock.json sync
+      run: |
+        if ! npm ls --package-lock-only >/dev/null 2>&1; then
+          echo "❌ package.json and package-lock.json are out of sync!"
+          echo "To fix this:"
+          echo "1. Run 'npm install' locally"
+          echo "2. Commit the updated package-lock.json"
+          echo "3. Push your changes"
+          exit 1
+        fi
+        echo "✅ package.json and package-lock.json are synchronized"
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
